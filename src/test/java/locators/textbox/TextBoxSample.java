@@ -25,7 +25,7 @@ public class TextBoxSample {
         String actual = element.getAttribute("value");
 
         System.out.println(actual);
-        if(actual.equals(expected))
+        if (actual.equals(expected))
             System.out.println("Test case passed");
 
         Thread.sleep(2000);
@@ -35,7 +35,7 @@ public class TextBoxSample {
         element.clear();
         actual = element.getAttribute("value");
         System.out.println("After clear() actual is: " + actual);
-        if(actual.equals(""))
+        if (actual.equals(""))
             System.out.println("clear() - test case passed");
 
 
