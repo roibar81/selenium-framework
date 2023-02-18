@@ -22,14 +22,14 @@ public class CheckBox {
         List<WebElement> checkBoxes = driver.findElements(By.name("language"));
         System.out.println(checkBoxes.size());
 
-        //clicking on the four (4) value in radio buttons
+        //clicking on the automationTesting checkbox
         for (WebElement cbx : checkBoxes) {
             System.out.println(cbx.getAttribute("value"));
             if (cbx.getAttribute("value").equals("automationtesting")) {
                 cbx.click();
                 System.out.println("Selected btn: " + cbx.isSelected());
                 System.out.println("Checked? " + cbx.getAttribute("checked"));
-//                break;
+                break;
             }
         }
         Thread.sleep(2000);
