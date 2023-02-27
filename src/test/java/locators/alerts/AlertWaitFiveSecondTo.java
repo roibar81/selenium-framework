@@ -7,7 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class AlertSample {
+public class AlertWaitFiveSecondTo {
+
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
         WebDriver driver;
@@ -15,32 +16,32 @@ public class AlertSample {
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/alerts/");
 
-
-        //store the alert button element in WebElement object.
-        WebElement simpleAlertButton = driver.findElement(By.name("commit"));
+        //store the delay alert button element in WebElement object.
+        WebElement delayAlertButton = driver.findElement(By.id("delayalert"));
 
         //clicking on the alert button.
-        simpleAlertButton.click();
+        delayAlertButton.click();
 
-        //define webDriverWait for waiting max 10 second alert to popup.
+        //define webDriverWait object to waiting max 10 second for delay alert to popup.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         //we store the alert in Alert object and use Wait object for waiting to alert to popup
-        //if not present after 10 second, exception will show up.
-        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+        //max 10 second, if not present exception will show up.
+        Alert delayalert = wait.until(ExpectedConditions.alertIsPresent());
 
         //simple assert.
-        String actual = alert.getText();
-        if (actual.contains("nice")) {
+        String actual = delayalert.getText();
+        if (actual.contains("5")) {
             System.out.println("Test case pass");
         } else {
             System.out.println("Test case fail");
         }
         System.out.println("Alert Message is: " + actual);
 
-        //push ok button in the alert frame
-        alert.accept();
+        //push ok button in the alert frame to close the window
+        delayalert.accept();
 
         driver.quit();
     }
+
 }
