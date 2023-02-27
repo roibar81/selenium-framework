@@ -1,13 +1,16 @@
 package locators.alerts;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class AlertWaitFiveSecondTo {
+public class AlertOkAndCancelButtons {
 
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
@@ -16,32 +19,34 @@ public class AlertWaitFiveSecondTo {
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/alerts/");
 
-        //store the delay alert button element in WebElement object.
-        WebElement delayAlertButton = driver.findElement(By.id("delayalert"));
+
+        //store the alert button element in WebElement object.
+        WebElement confirmAlert = driver.findElement(By.id("confirm"));
 
         //clicking on the alert button.
-        delayAlertButton.click();
+        confirmAlert.click();
 
-        //define webDriverWait object to waiting max 10 second for delay alert to popup.
+        //define webDriverWait for waiting max 10 second alert to popup.
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         //we store the alert in Alert object and use Wait object for waiting to alert to popup
-        //max 10 second, if not present exception will show up.
-        Alert delayAlert = wait.until(ExpectedConditions.alertIsPresent());
+        //if not present after 10 second, exception will show up.
+        Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+
+        //push Cancel button in the alert frame
+        alert.dismiss();
 
         //simple assert.
-        String actual = delayAlert.getText();
-        if (actual.contains("5")) {
+        String actual = driver.findElement(By.id("Parademo")).getText();
+
+        if (actual.contains("Cancel")) {
             System.out.println("Test case pass");
         } else {
             System.out.println("Test case fail");
         }
         System.out.println("Alert Message is: " + actual);
 
-        //push ok button in the alert frame to close the window
-        delayAlert.accept();
 
         driver.quit();
     }
-
 }
