@@ -1,7 +1,12 @@
 package locators.alerts;
 
-import org.openqa.selenium.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -10,12 +15,15 @@ import java.time.Duration;
 public class sendKeysToAlertPromptDialogBox {
 
     public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
-        WebDriver driver;
-        driver = new ChromeDriver();
+
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver();
+
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/alerts/");
-
 
         //store the alert button element in WebElement object.
         WebElement sendKeysToAlert = driver.findElement(By.id("prompt"));
@@ -33,7 +41,6 @@ public class sendKeysToAlertPromptDialogBox {
         //send some message to the alert prompt dialog box allows
         alert.sendKeys("World");
         alert.accept();
-
 
         //simple assertion.
         String actual = driver.findElement(By.id("Parademo")).getText();

@@ -1,10 +1,14 @@
 package locators.alerts;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,13 +16,17 @@ import java.time.Duration;
 
 public class AlertOkAndCancelButtons {
 
-    public static void main(String[] args) {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
-        WebDriver driver;
-        driver = new ChromeDriver();
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+
+        WebDriver driver = new ChromeDriver(options);
+
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/alerts/");
-
 
         //store the alert button element in WebElement object.
         WebElement confirmAlert = driver.findElement(By.id("confirm"));
@@ -45,7 +53,6 @@ public class AlertOkAndCancelButtons {
             System.out.println("Test case fail");
         }
         System.out.println("Alert Message is: " + actual);
-
 
         driver.quit();
     }

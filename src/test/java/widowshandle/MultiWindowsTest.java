@@ -1,24 +1,28 @@
 package widowshandle;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 
 public class MultiWindowsTest {
     WebDriver driver;
 
-    @BeforeTest
+    @BeforeMethod
     public void init() {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/links/");
     }
@@ -45,7 +49,7 @@ public class MultiWindowsTest {
         driver.switchTo().window(secondWindow);
 
         //now we can handle the second window, and this time to enter username
-        WebElement usernameTextBox = driver.findElement(By.xpath("//input[@id='username']"));
+        WebElement usernameTextBox = driver.findElement(By.xpath("//input[@id='g4072-fullname']"));
         usernameTextBox.sendKeys("RRRRR");
         System.out.println("Second window title: " + driver.getTitle());
 
@@ -68,7 +72,7 @@ public class MultiWindowsTest {
         }
     }
 
-    @AfterTest()
+    @AfterMethod()
     public void tearDown() {
         driver.quit();
     }

@@ -1,9 +1,11 @@
 package locators.dropdown;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -11,12 +13,14 @@ import java.util.List;
 public class MultiSelectDropDownSample {
     public static void main(String[] args) throws InterruptedException {
 
-        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
-        WebDriver driver;
-        driver = new ChromeDriver();
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver();
+
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/signup/");
-        Thread.sleep(2000);
 
         WebElement element = driver.findElement(By.id("tools"));
 
@@ -30,13 +34,12 @@ public class MultiSelectDropDownSample {
             System.out.println(allSelectedOption.getText());
         }
 
-
         //store all the selected options in list of webElement object
-        List<WebElement> options = select.getOptions();
+        List<WebElement> selectedOptions = select.getOptions();
         //print the number of selected option in the selectedDropDown as a size of the list
-        System.out.println("DropDown items count - " + options.size());
+        System.out.println("DropDown items count - " + selectedOptions.size());
         //add another selection item by clicking on him using
-        for (WebElement op : options) {
+        for (WebElement op : selectedOptions) {
             //store each WebElement value to string
             String name = op.getAttribute("value");
             //check if the attribute value == "male"
@@ -47,7 +50,6 @@ public class MultiSelectDropDownSample {
             }
         }
 
-        Thread.sleep(2000);
         driver.quit();
     }
 

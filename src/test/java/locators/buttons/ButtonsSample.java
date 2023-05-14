@@ -1,22 +1,32 @@
 package locators.buttons;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.concurrent.TimeUnit;
 
 public class ButtonsSample {
 
     public static void main(String[] args) throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "C:/Users/roibar/Desktop/projects/chromedriver/chromedriver.exe");
-        WebDriver driver;
-        driver = new ChromeDriver();
+
+        WebDriverManager.chromedriver().setup();
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
+        WebDriver driver = new ChromeDriver();
+
         driver.manage().window().maximize();
         driver.get("https://qavbox.github.io/demo/signup/");
-        Thread.sleep(2000);
+
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
         WebElement element = driver.findElement(By.name("home"));
         String actual = element.getAttribute("value");
+
         if (actual.equals("Home"))
             System.out.println("test case pass");
 
@@ -25,7 +35,6 @@ public class ButtonsSample {
 
         if (driver.getCurrentUrl().equals("https://qavbox.github.io/demo/"))
             System.out.println("You are in the correct page");
-
 
         Thread.sleep(3000);
         driver.quit();
