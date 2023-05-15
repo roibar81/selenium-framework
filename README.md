@@ -1,1 +1,2 @@
-# In this repository I am learn selenium framework
+#selenium framework
+In this project I learn selenium using Java programing language
