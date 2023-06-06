@@ -5,11 +5,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -32,13 +35,14 @@ public class MultiWindowsTest {
         System.out.println("Parent Window ID: " + parentWindow);
         System.out.println("Parent Window Title: " + driver.getTitle());
 
-        WebElement newTabButton = driver.findElement(By.xpath("//input[@name='NewTab']"));
+        WebElement newTabButton = driver.findElement(By.xpath(
+                "//input[@name='NewTab']"));
         newTabButton.click();
 
         //store multiple windows in Set of Strings (id of window)
         Set<String> windows = driver.getWindowHandles();
 
-        //create iterator to iterate on thw windows
+        //create iterator to iterate on the windows
         Iterator<String> windowsIterator = windows.iterator();
 
         String firstWindow = windowsIterator.next();//Parent window
@@ -59,6 +63,7 @@ public class MultiWindowsTest {
 
     @Test
     public void multipleWindowsHandling() {
+        String parentWindow = driver.getWindowHandle();
         WebElement multiWindowsButton = driver.findElement(By.xpath("//input[@value='Multi Window']"));
         multiWindowsButton.click();
         Set<String> allWindowsHandling = driver.getWindowHandles();
@@ -66,9 +71,18 @@ public class MultiWindowsTest {
         System.out.println("Number of Windows: " + allWindowsHandling.size());
         while (iterateWindows.hasNext()) {
             String currentWindow = iterateWindows.next();
-            driver.switchTo().window(currentWindow);
-            System.out.println("Window Title: " + driver.getTitle());
+            if (!currentWindow.equals(parentWindow)) {
+                driver.switchTo().window(currentWindow);
+                System.out.println("Window Title: " + driver.getTitle());
+                if (driver.getTitle().contains("QAVBOX")) {
+                    List<WebElement> webElements = driver.findElements(By.tagName("li"));
+                    System.out.println("Number of menu items: " + webElements.size());
+                }
+                driver.close();
+            }
         }
+        driver.switchTo().window(parentWindow);
+        System.out.println("Final Page " + driver.getTitle());
     }
 
     @AfterMethod()
